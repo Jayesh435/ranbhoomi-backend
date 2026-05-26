@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Territory" ADD COLUMN     "health" DOUBLE PRECISION NOT NULL DEFAULT 100;

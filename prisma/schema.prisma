@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  username String @unique
+
+  password String @default("")
+  
+  faction String
+
+  xp Int
+
+  squadId String?
+
+  squad Squad? @relation(fields: [squadId], references: [id])
+
+  territories Territory[]
+
+  createdAt DateTime @default(now())
+}
+
+model Territory {
+  id String @id @default(cuid())
+
+  coordinates Json
+
+  area Float
+
+  health Float
+
+  chakra Boolean?
+
+  userId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  lastActive DateTime
+
+  createdAt DateTime @default(now())
+}
+
+model Squad {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  faction String
+
+  createdAt DateTime @default(now())
+
+  members User[]
+}
