@@ -6,6 +6,7 @@ export async function decayTerritories() {
   const territories = await prisma.territory.findMany();
 
   const now = new Date().getTime();
+  const decayPerHour = 100 / (7 * 24);
 
   for (const territory of territories) {
     const lastActive = new Date(territory.lastActive).getTime();
@@ -14,7 +15,7 @@ export async function decayTerritories() {
 
     /* DECAY RATE */
 
-    const decay = hoursInactive * 0.5;
+    const decay = hoursInactive * decayPerHour;
 
     const newHealth = territory.health - decay;
 

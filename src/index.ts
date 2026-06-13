@@ -19,41 +19,26 @@ const app = express();
 
 const server = createServer(app);
 
-const io =
+const io = new Server(
+  server,
 
-  new Server(
+  {
+    cors: {
+      origin: "*",
 
-    server,
-
-    {
-
-      cors: {
-
-        origin: "*",
-
-        methods: [
-          "GET",
-          "POST",
-        ],
-      },
-    }
-  );
+      methods: ["GET", "POST"],
+    },
+  },
+);
 
 app.use(
-
   cors({
-
     origin: "*",
 
-    methods: [
-      "GET",
-      "POST",
-      "PUT",
-      "DELETE",
-    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
 
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
@@ -73,10 +58,7 @@ io.on(
       "player_move",
 
       (playerData) => {
-        const index = livePlayers.findIndex(
-          (p) => p.id ===
-                    playerData.id,
-        );
+        const index = livePlayers.findIndex((p) => p.id === playerData.id);
 
         if (index !== -1) {
           livePlayers[index] = playerData;
@@ -358,6 +340,7 @@ app.post(
 
               data: {
                 health: newHealth,
+                lastActive: new Date(),
               },
             });
           }
@@ -589,17 +572,12 @@ app.get(
 
 /* SERVER */
 
-const PORT =
-  process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 server.listen(
-
   PORT,
 
   () => {
-
-    console.log(
-      `Server running on ${PORT}`
-    );
-  }
+    console.log(`Server running on ${PORT}`);
+  },
 );
