@@ -1,1 +1,1 @@
-export const API_URL = "https://ranbhoomi-backend-production.up.railway.app";
+export const API_URL = "http://10.176.231.117:8080";
