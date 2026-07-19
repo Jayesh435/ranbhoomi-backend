@@ -1,1 +1,2 @@
-export const API_URL = "http://10.176.231.117:8080";
+export const API_URL = "https://ranbhoomi-backend-jvktjk435.onrender.com";
+    
