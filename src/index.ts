@@ -262,6 +262,24 @@ app.post(
     try {
       const { userId, chakra, coordinates } = req.body;
 
+      if (!userId) {
+        return res.status(400).json({
+          error: "Missing user id",
+        });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        return res.status(404).json({
+          error: "User not found",
+        });
+      }
+
       if (!coordinates || coordinates.length < 3) {
         return res.status(400).json({
           error: "Invalid polygon",
